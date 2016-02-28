@@ -1,0 +1,32 @@
+---
+title: "Black-Scholes Option Model"
+author: "Kiril D. Sakaliyski"
+date: "February 28, 2016"
+output: html_document
+runtime: shiny                
+---
+
+This application displays call/put option prices and greeks (delta, gamma, vega and theta) using the Black-Scholes method. 
+The input parameters are:
+- K is the strike price
+- &sigma; is the standard diviation (or volatility)
+- &tau; is the time from now until expiration, expressed in days
+- r is the risk-free interest rate
+
+"The Greeks" measure the sensitivity of the value of a derivative to changes in parameter value(s) while holding the other parameters fixed. They are partial derivatives of the price with respect to the parameter values. 
+
+The application displays call/put option prices and greeks as a function of S, the current stock price using the Black-Scholes method. By changing the various input parameters, one can see how the option value and greeks change. 
+
+More information about the Black-Scholes pricing model and its assumptions can be found at https://en.wikipedia.org/wiki/Black–Scholes_model.
+
+Presentation Pitch
+
+The presentation pitch is available at http://rpubs.com/quantX79/shinyapp_bs
+
+Deployed Shiny App
+
+The deployed app is available at https://quantx79.shinyapps.io/project/
+
+Source Codes
+
+The course submission source codes are available at http://rpubs.com/quantX79/shinyapp_bs

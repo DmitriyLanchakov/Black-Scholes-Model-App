@@ -1,0 +1,75 @@
+Black-Scholes Model (A Shiny Application)
+========================================================
+author: Kiril D. Sakaliyski
+date: February 28, 2016
+
+Main Idea
+========================================================
+
+This application displays call/put option prices and parameter sensitivities using the Black-Scholes method.
+
+The input parameters are:
+- $K$ is the strike price
+- $\sigma$ is the standard diviation (or volatility)
+- $\tau$ is the time from now until expiration, expressed in days
+- $r_f$ is the risk-free interest rate
+
+Main Idea (contd.)
+========================================================
+
+- "The Greeks" (Delta, Gamma, Vega and Theta) measure the sensitivity of the value of a derivative to changes in parameter value(s) while holding the other parameters fixed. They are partial derivatives of the price with respect to the parameter values. 
+
+- The application displays call/put option prices and greeks as a functon of $S$, the current stock price using the Black-Scholes method. By changing the various input parameters, one can see how the option value and greeks change.
+
+- In the next slides an option with fixed strike price $K=100$, volatilty $\sigma=20%$, $\tau=1$ year to maturity and risk-free rate of $r=0.5%$ is observed. These are also the initial application parameters.
+
+Option Price and Delta
+========================================================
+
+Plots of the option price and delta as functions of the current stock price.
+```{r, echo=FALSE,fig.width=8,fig.height=4.5,dpi=300,out.width="1920px",height="1080px"}
+source('black_scholes.R')
+K <- 100
+sigma <- 0.20
+r <- 0.0050
+t <- 1
+par(mfrow=c(1,2))
+plot(function(S){bscall.value(S,K,t,r,sigma)}, 50, 150, col="#19304f", lwd=3, xlab="", ylab="")
+plot(function(S){bsput.value(S,K,t,r,sigma)}, 50, 150, add=T, col="#d63d00", lwd=3)
+title(main='', xlab='Stock Price', ylab='Value')
+legend('topleft', c('Call', 'Put'), lwd=3, col=c("#19304f","#d63d00"), bty='n')
+abline(v=K,lty=3)
+title('Option Value', line=1)
+
+plot(function(S){bscall.delta(S,K,t,r,sigma)}, 50, 150, col="#19304f", lwd=3, xlab="", ylab="", ylim=c(-1,1))
+plot(function(S){bsput.delta(S,K,t,r,sigma)}, 50, 150, add=T, col="#d63d00", lwd=3)
+abline(v=K,lty=3)
+abline(0,0)
+title('', xlab='Stock Price', ylab='Delta')
+legend('topleft', c('Call', 'Put'), lwd=3, col=c("#19304f","#d63d00"), bty='n')
+title('Delta', line=1)
+```
+
+Gamma, Vega and Theta
+========================================================
+Plots of the option gamma, vega and theta as functions of the current stock price.
+```{r, echo=FALSE,fig.width=8,fig.height=4.5,dpi=300,out.width="1920px",height="1080px"}
+
+par(mfrow=c(1,3))
+plot(function(S){bscall.gamma(S,K,t,r,sigma)}, 50, 150, col="#19304f", lwd=3, xlab="", ylab="", ylim=c(0,0.025))
+abline(v=K,lty=3)
+title('Gamma', xlab='Stock Price', ylab='Gamma')
+legend('topleft', c('Call/Put Gamma'), lwd=3, col=c("#19304f","#d63d00"), bty='n')
+
+plot(function(S){bscall.vega(S,K,t,r,sigma)}, 50, 150, col="#19304f", lwd=3, xlab="", ylab="", ylim=c(0,45))
+abline(v=K,lty=3)
+title('Vega', xlab='Stock Price', ylab='Vega')
+legend('topleft', c('Call/Put Vega'), lwd=3, col=c("#19304f","#d63d00"), bty='n')
+
+plot(function(S){bscall.theta(S,K,t,r,sigma)}, 50, 150, col="#19304f", lwd=3, xlab="", ylab="",ylim=c(-5,1))
+plot(function(S){bsput.theta(S,K,t,r,sigma)}, 50, 150, add=T, col="#d63d00", lwd=3)
+abline(v=K,lty=3)
+abline(0,0)
+title('Theta', xlab='Stock Price', ylab='Theta')
+legend('topleft', c('Call', 'Put'), lwd=3, col=c("#19304f","#d63d00"), bty='n')                        
+```
